@@ -1,0 +1,45 @@
+package vue;
+
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+import javax.swing.JPanel;
+
+import modele.*;
+
+public class PanelDia extends JPanel implements ActionListener  {
+	TreeMap<Date, TreeSet<Evt>> chTreeMap;
+	int j = 0;
+	JPanel chPanelCentre = new JPanel();
+	PanelDiaporama evt;
+	CardLayout chGestionnaireDeCartes = new CardLayout(5, 5);
+
+	
+	
+	public PanelDia(Frise parFrise){
+		chPanelCentre.setLayout(chGestionnaireDeCartes);
+		chTreeMap = parFrise.getAllEvt();
+		Set<Date> cles = chTreeMap.keySet();
+		for (Date cle : cles) {
+			Iterator<Evt> Set = chTreeMap.get(cle).iterator();
+			while (Set.hasNext()) {
+				evt = new PanelDiaporama(Set.next());
+				chPanelCentre.add(evt,j);
+				//evtTitres[j]= Set.next().getTitre();
+				j++;
+			}
+		}
+		chGestionnaireDeCartes.show(chPanelCentre,"0");
+		add(chPanelCentre, BorderLayout.CENTER);
+
+	}
+	
+	
+	public getNbEvt() {}
+
+}

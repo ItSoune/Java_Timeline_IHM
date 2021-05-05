@@ -1,0 +1,24 @@
+package Client;
+
+import modele.*;
+
+public class Client {
+
+	public static void main(String[] args) {
+		AgendaV2 a1 = new AgendaV2();
+		Date date = new Date(8,3,2011);
+		Evt e1 = new Evt(date,"111","azer");
+		Evt e5 = new Evt(date,"222","azer");
+		Evt e3 = new Evt(new Date(10,6,2001),"333","azer");
+		Evt e4 = new Evt(new Date(1,1,2001),"444","azer");
+		Evt e2 = new Evt(date,"555","azer");
+		a1.ajoutMap(e1);
+		a1.ajoutMap(e2);
+		a1.ajoutMap(e3);
+		a1.ajoutMap(e4);
+		a1.ajoutMap(e5);
+		System.out.println(a1.toString());
+
+	}
+
+}

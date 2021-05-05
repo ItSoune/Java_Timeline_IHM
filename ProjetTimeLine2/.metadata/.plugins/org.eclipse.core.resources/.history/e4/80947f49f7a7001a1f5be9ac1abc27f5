@@ -1,0 +1,118 @@
+package modele;
+
+import java.io.Serializable;
+
+/**
+ * La classe Evt permet de créer un événement.
+ * 
+ * @author BOUCHDI Yassine
+ *
+ */
+public class Evt implements Comparable<Evt>, Serializable {
+	private Date chDate;
+	private String chTitre, chDescription;
+	private static int chNiveau, chNbEvt = 0;
+
+
+	/**
+	 * Méthode toString gère la forme de l'événement.
+	 */
+	public String toString() {
+
+		return chDate.toString() + "\n" + chTitre + "\n" + chDescription;
+	}
+
+	/**
+	 * Le constructeur de Evt affecte les variables en paramètre aux champs de la
+	 * classe pour céer un evenement.
+	 * 
+	 * @param parDate : La Date de l'événement.
+	 * @param parTitre : Le Titre de l'événement.
+	 * @param parDescription : Descrption de l'événement.
+
+	 */
+	public Evt(Date parDate, String parTitre, String parDescription, int parNiveau) {
+		chDate = parDate;
+		chTitre = parTitre;
+		chDescription = parDescription;
+		chNiveau = parNiveau;
+		chNbEvt++;
+	}
+
+	/**
+	 * La méthode setDate affecte la date en parametre à l'événement courant.
+	 * 
+	 * @param parDate : La nouvelle date de l'événement.
+	 */
+	public void setDate(Date parDate) {
+		chDate = parDate;
+	}
+
+	/**
+	 * La méthode getDate renvoie la date de l'événement.
+	 * 
+	 * @return Date : La date de l'événement.
+	 */
+	public Date getDate() {
+		return chDate;
+	}
+
+	
+
+	/**
+	 * La methode getTitre renvoie le titre de l'événement.
+	 * 
+	 * @return String : Titre de l'événement
+	 */
+	public String getTitre() {
+		return chTitre;
+	}
+
+	/**
+	 * La methode getDescription renvoie la description de l'événement.
+	 * 
+	 * @return String : Description de l'événement
+	 */
+	public String getDescription() {
+		return chDescription;
+	}
+
+	/**
+	 * La methode getNbEvt renvoie le nombre d'événements créés.
+	 * 
+	 * @return int : nombre d'événements créés.
+	 */
+	public static int getNbEvt() {
+		return chNbEvt;
+	}
+	
+	/**
+	 * La methode getNbEvt renvoie le nombre d'événements créés.
+	 * 
+	 * @return int : niveau d'importance.
+	 */
+	public static int getNiveau() {
+		return chNiveau;
+	}
+
+	
+	/**
+	 * La méthode compareTo sert a comparer deux événements, en se basant sur leurs
+	 * dates puis titre si les deux événements comparés ont la
+	 * même date : elle retourne un entier négatif si
+	 * l'événement en paramètre est plus grand, un entier positif si il est plus
+	 * petit, et 0 si les deux événements sont égaux.
+	 * 
+	 * 
+	 */
+	public int compareTo(Evt parEvt) {
+		int val = this.getDate().compareTo(parEvt.getDate());
+
+		if ((val == 0)) {
+			val = this.getTitre().compareTo(parEvt.getTitre());
+		}
+
+		return (val);
+	}
+
+}

@@ -1,0 +1,74 @@
+package vue;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+
+import javax.swing.*;
+
+import Controleur.Controleur;
+import modele.*;
+
+public class PanelFrise extends JPanel implements ActionListener {
+	
+		CardLayout chLayout = new CardLayout();
+		public PanelFrise() {
+			Frise chFrise = new Frise();
+
+			FenetreMenu chMenu = new FenetreMenu("Frise - Menu Général" );
+
+			String chCurrentProject = chMenu.getTitreProjet();
+			
+			if (FenetreMenu.fichTes.length() == 0) {
+
+				fichTes = new File(chCurrentProject + File.separator + "Frise.ser");
+
+			}
+
+			else {
+
+				LectureEcriture chLecEcr = new LectureEcriture();
+				chAgenda = (AgendaV2) chLecEcr.lecture(Login.fichTes);
+
+			}
+
+
+
+			PanelCreation creation = new PanelCreation();
+			PanelEvt evt = new PanelEvt(chFrise);
+			Controleur contr = new Controleur(chFrise, creation, evt);
+			this.setLayout(chLayout);
+
+			this.add(evt,Data.MENU[1]);
+			this.add(creation,Data.MENU[0]);
+	
+		}
+		public void actionPerformed(ActionEvent e) {
+			String actionCommand = e.getActionCommand();
+			for (int i = 0; i < Data.MENU.length; i++) {
+				if (actionCommand.equals(Data.MENU[i])) {
+					chLayout.show(this, Data.MENU[i]);
+
+				}
+			}
+			if (actionCommand.equals(Data.MENU[3])) {
+				int saisi = JOptionPane.showConfirmDialog(this, "Êtes-vous sûr de vouloir fermer la fenêtre ?",
+						"Dialogue de confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+				switch (saisi) {
+				case JOptionPane.CLOSED_OPTION:
+					break;
+				case JOptionPane.YES_OPTION:
+					System.exit(0);
+					break;
+				case JOptionPane.NO_OPTION:
+					break;
+				}
+			}
+		}
+		
+
+
+
+}

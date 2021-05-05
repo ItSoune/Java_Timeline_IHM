@@ -1,0 +1,27 @@
+package vue;
+
+import java.util.Iterator;
+import java.util.Set;
+
+import modele.*;
+
+public class PanelDia {
+	
+	
+	
+	public PanelDia(Frise parFrise){
+		chTreeMap = parFrise.getAllEvt();
+		int j = 0;
+		Set<Date> cles = chTreeMap.keySet();
+		for (Date cle : cles) {
+			Iterator<Evt> Set = chTreeMap.get(cle).iterator();
+			while (Set.hasNext()) {
+				evt = new PanelDiaporama(Set.next());
+				chPanelCentre.add(evt,j);
+				//evtTitres[j]= Set.next().getTitre();
+				j++;
+			}
+		}
+	}
+
+}

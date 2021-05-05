@@ -1,0 +1,107 @@
+package modele;
+
+import java.io.Serializable;
+import java.util.*;
+
+/**
+ * La classe Agenda contient les événements ajoutés.
+ * 
+ * @author BOUCHDI Yassine
+ *
+ */
+public class Frise implements Serializable {
+
+	public static  TreeMap<Date, TreeSet<Evt>> chTreeMap = new TreeMap<Date, TreeSet<Evt>>();
+
+	/**
+	 * La méthode toString gère la forme de l'agenda.
+	 * 
+	 * @return String
+	 */
+	public String toString() {
+
+		String message = "TreeMap : \n";
+		Set<Date> cles = chTreeMap.keySet();
+		for (Date cle : cles) {
+			Iterator<Evt> Set = chTreeMap.get(cle).iterator();
+			message += ("Dans la semaine " + cle + "  on a : " + "\n");
+			while (Set.hasNext()) {
+				message += (Set.next() + "\n");
+			}
+		}
+		return message;
+	}
+
+	/**
+	 * La méthode ajoutMap gère l'ajout des nouveaux événements à la TreeMap : Elle
+	 * classe les événements par leur numéro de semaine.
+	 * 
+	 * @param parNvEvenement : Le nouveau événement à ajouter.
+	 */
+	public void ajoutMap(Evt parNvEvenement) {
+		Date date = parNvEvenement.getDate();
+		Set<Date> cles = chTreeMap.keySet();
+		if (cles.contains(date)) {
+			TreeSet<Evt> Set = chTreeMap.get(date);
+			Set.add(parNvEvenement);
+		} else {
+			TreeSet<Evt> nouv = new TreeSet();
+			nouv.add(parNvEvenement);
+			chTreeMap.put(date, nouv);
+		}
+	}
+
+	/**
+	 * La méthode getEvtSemaine renvoie le(les) événement(s) de la semaine passée en
+	 * paramètre
+	 * 
+	 * @param parSem : La semaine séléctionée dans le calendrier
+	 * @return TreeSet : La TreeSet qui contient les événement de la semaine sélectionnée.
+	 */
+	public static Evt getEvtDate(Date parDate) {
+		TreeSet<Evt> DateTree = chTreeMap.get(parDate);
+		Iterator<Evt> it = DateTree.iterator();
+		Evt evt = null;
+		while (it.hasNext()) {
+			evt = it.next();
+		
+		}
+		return evt;
+	}
+	
+	public static TreeMap<Date, TreeSet<Evt>> getAllEvt(){
+			return chTreeMap;
+
+	}
+	
+	public TreeSet<Date> getAllDates(Date parDateDeb,Date parDateFin){
+		Collection<Date> chCollectionDates;
+
+		Date date = parDateDeb;
+		Date datefin = parDateFin;
+		int Mois = date.getMois();
+		int Annee = date.getAnnee();
+		TreeSet<Date> DateTree = new TreeSet();
+		
+		while (date.compareTo(parDateFin) < 0){
+			CalendrierDuMois calendrier = new CalendrierDuMois(date.getMois(), date.getAnnee());
+			chCollectionDates = calendrier.getDates();
+			Iterator<Date> it = chCollectionDates.iterator();
+			while (it.hasNext()) {
+				Date chDate = it.next();
+				DateTree.add(chDate);
+			}
+			if (Mois == 12) {
+				Mois = 1;
+				Annee ++;
+				date = new Date(datefin.getJour(),Mois,Annee);
+			}
+			else {
+				Mois++;
+				date = new Date(datefin.getJour(),Mois,Annee);
+			}
+		}
+		return DateTree;
+	}
+
+}

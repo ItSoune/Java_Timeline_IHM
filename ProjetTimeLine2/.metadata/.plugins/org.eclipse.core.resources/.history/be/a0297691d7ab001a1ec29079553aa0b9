@@ -1,0 +1,57 @@
+package Controleur;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.Serializable;
+
+import javax.swing.*;
+
+import modele.*;
+import vue.*;
+
+/**
+ * La classe controleur permet de faire la liaison entre le modele et la vue.
+ * 
+ * @author BOUCHDI Yassine
+ *
+ */
+public class Controleur implements ActionListener, Serializable {
+	Frise chFrise;
+	PanelCreation chPanelCreation;
+	PanelEvt chPanelEvt;	
+	
+	/**
+	 * Le constructeur prend en paramètre les diffèrentes classes du modèle et de la
+	 * vue pour les mettre en relation.
+	 * 
+	 * @param parAgenda Le controleur prend en paramètre l'agenda qui contient les évenements.
+	 * @param parPanelFormulaire Le controleur prend en paramètre le PanelFormulaire qui permet l'ajout des événements.
+	 * @param parPanelCalendrier Le controleur prend en paramètre le PanelCalendrier qui contient le calendrier du mois.
+	 * @param parPanelAffichage Le controleur prend en paramètre PanelAffichage qui contient ModelTable.
+	 */
+	public Controleur(Frise parFrise, PanelCreation parPanelCreation, PanelEvt parPanelEvt) {
+		chFrise = parFrise;
+		chPanelCreation = parPanelCreation;
+		chPanelEvt = parPanelEvt;
+
+		chPanelCreation.enregistreEcouteur(this);
+	}
+
+	/**
+	 * Le controleur mis à l'écoute des actions sur les boutons de calendrier
+	 * modifie le formulaire de PanelFormulaire et la JTable de PanelAffichage et
+	 * ajoute l'agenda au fichier.
+	 */
+	public void actionPerformed(ActionEvent parEvt) {
+		if (parEvt.getActionCommand().equals("+")) {
+			chFrise.ajoutMap(chPanelCreation.getEvenement());
+			chPanelEvt.addEvt(chPanelCreation.getEvenement()); 
+			chPanelCreation.RAZ();
+			LectureEcriture a = new LectureEcriture();
+			a.ecriture(FenetreMenu.fichTes, chFrise);
+
+		} 
+	}
+}

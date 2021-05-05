@@ -1,0 +1,123 @@
+package vue;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+import javax.swing.*;
+
+import modele.CalendrierDuMois;
+import modele.Data;
+import modele.Date;
+import modele.Evt;
+import modele.Frise;
+
+/**
+ * La classe PanelCalendrier permet l'affichage et la gestion des dates des mois
+ * de l'année.
+ * 
+ * @author BOUCHDI Yassine
+ *
+ */
+public class PanelEvt extends JPanel implements ActionListener {
+
+	private final static String[] chIntitulesDesBoutons = { "<", ">" };
+	private final static JButton[] chBoutons = new JButton[2];
+	String evtTitres [];
+	Frise frise;
+	CardLayout chGestionnaireDeCartes = new CardLayout(5, 5);
+	JPanel chPanelCentre = new JPanel();
+	JPanel chPanelWest = new JPanel();
+	JPanel chPanelEast = new JPanel();
+	JPanel chPanelNord = new JPanel();
+	JLabel chTitreNord = new JLabel();
+	TreeMap<Date, TreeSet<Evt>> chTreeMap;
+	
+	PanelDiaporama evt;
+			int j = 0;
+
+	GregorianCalendar chAujourdhui = new GregorianCalendar();
+
+	GridBagConstraints contrainte = new GridBagConstraints();
+
+	public PanelEvt(Frise parFrise) {
+
+		this.setLayout(new BorderLayout(9, 9));
+
+		
+		//West
+		chPanelWest.setLayout(new BorderLayout(200, 200));
+		chBoutons[0] = new JButton(chIntitulesDesBoutons[0]);
+		chBoutons[0].setOpaque(true);
+		chBoutons[0].addActionListener(this);
+		chPanelWest.add(chBoutons[0]);
+		
+		//East
+		chPanelEast.setLayout(new BorderLayout(200, 200));
+		chBoutons[1] = new JButton(chIntitulesDesBoutons[1]);
+		chBoutons[1].setOpaque(true);
+		chBoutons[1].addActionListener(this);
+		chPanelEast.add(chBoutons[1]);
+
+
+		// Centre
+		chPanelCentre.setLayout(chGestionnaireDeCartes);
+
+		/*for (int j = 1; j <= Evt.getNbEvt(); j++) {
+			cal = new PanelMois(j);
+			chPanelCentre.add(cal, chMois[j - 1]);
+			LesPanelsMOis.add(cal);
+		}*/
+		chTreeMap = Frise.getAllEvt();
+		Set<Date> cles = chTreeMap.keySet();
+		for (Date cle : cles) {
+			Iterator<Evt> Set = chTreeMap.get(cle).iterator();
+			while (Set.hasNext()) {
+				evt = new PanelDiaporama(Set.next());
+				chPanelCentre.add(evt,j);
+				//evtTitres[j]= Set.next().getTitre();
+				j++;
+			}
+		}
+		chGestionnaireDeCartes.show(chPanelCentre,"0");
+
+
+		setBackground(new Color(0, 0, 100));
+
+		// Global
+		add(chPanelWest, BorderLayout.WEST);
+		add(chPanelCentre, BorderLayout.CENTER);
+		add(chPanelEast, BorderLayout.EAST);
+
+	}
+
+
+	/**
+	 * Cette méthode permet de gérer les événements sur PanelCalendrier.
+	 */
+	public void actionPerformed(ActionEvent parEvt) {
+		 if (parEvt.getSource() == chBoutons[0]) {
+
+			chGestionnaireDeCartes.previous(chPanelCentre);
+
+
+		} else if (parEvt.getSource() == chBoutons[1]) {
+
+			chGestionnaireDeCartes.next(chPanelCentre);
+		}
+	}
+	public void addEvt(Evt parEvt) {
+		
+		evt = new PanelDiaporama(parEvt);
+		chPanelCentre.add(evt,j);
+		j++;
+	}
+}

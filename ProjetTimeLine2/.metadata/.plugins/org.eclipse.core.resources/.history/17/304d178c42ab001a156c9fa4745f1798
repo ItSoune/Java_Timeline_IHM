@@ -1,0 +1,708 @@
+/**
+ * 
+ */
+package vue;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.*;
+import javax.imageio.*;
+import javax.swing.*;
+import javax.swing.border.*;
+import modele.Data;
+import modele.Frise;
+
+import java.io.*;
+import java.util.ArrayList;
+
+/**
+ * @author Cleret Lilian
+ *
+ */
+public class FenetreMenu extends JFrame implements ActionListener, Serializable{
+
+	private static FenetreMenu menu;
+	FenetreFrise fenetreFrise = null;
+	public static File fichTes;
+	public int statut;
+	private JLabel chLblMsgBienvenue = new JLabel("Bienvenue sur Frise");
+	private JLabel chLblCredit = new JLabel("Copyright © 2020");
+	private JLabel chLblMsgCreation = new JLabel("Bienvenue sur le menu de création :");
+	private JLabel chLblMsgAffichage = new JLabel("Bienvenue sur le menu d'affichage :");
+	
+	private JLabel chLblFic = new JLabel("Choisissez une Frise :");
+	
+	private JLabel chLblMsgNew = new JLabel("Vous êtes sur le point de créer une nouvelle Frise.");
+	private JLabel chLblNewTitre = new JLabel("Donnez un titre :");
+	private JLabel chLblNewDebut = new JLabel("Date de début :");
+	private JLabel chLblNewFin = new JLabel("Date de fin :");	
+	
+	private JLabel chLblChoix = new JLabel("Il faut choisir un projet.");	
+
+	private JLabel chLabelVide = new JLabel("La frise est vide");
+
+	private JLabel chLabelFieldErr = new JLabel("Veuillez compléter tous les champs.");
+	private JLabel chLabelExiErr = new JLabel("Ce projet existe dejà, choisissez un autre titre.");
+	
+	JTextField chNewTitreField = new JTextField();
+	
+	JButton btnFra = new JButton ();
+	JButton btnEng = new JButton ();
+	
+	JButton btnCreation = new JButton ("Création");
+	JButton btnAffichage = new JButton ("Affichage");
+	JButton btnNouveau = new JButton ("Nouveau");
+	JButton btnModifier = new JButton ("Modifier");
+	JButton btnOpen = new JButton ("Ouvrir");
+	JButton btnBack = new JButton ("Retour");
+	JButton btnCreate = new JButton ("Créer");
+	
+
+
+	static JComboBox comboFichier = new JComboBox();
+	
+	String jour[] = new String[32];
+	JComboBox comboJourDebut = new JComboBox();
+	JComboBox comboJourFin = new JComboBox();
+	String mois[] = new String[13];
+	JComboBox comboMoisDebut = new JComboBox();
+	JComboBox comboMoisFin = new JComboBox();
+	String annee[] = new String[2031];
+	JComboBox comboAnneeDebut = new JComboBox();
+	JComboBox comboAnneeFin = new JComboBox();
+	
+	private JPanel chMenuGeneral = new JPanel();
+	
+	/**
+	 * Métode main, donne l'argument en tant que nom de fenêtre et appel la fenêtre.
+	 * 
+	 * @param args, tableau d'argument.
+	 */
+	public static void main(String[] args) {
+		
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					menu = new FenetreMenu("Frise - Menu Général");
+					menu.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	
+	public FenetreMenu(String parTitre) {
+		super(parTitre);
+		
+		GridBagConstraints contrainte = new GridBagConstraints();
+		setLayout(new GridBagLayout());
+
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 500, 420);
+		
+		chMenuGeneral.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(chMenuGeneral);
+		chMenuGeneral.setLayout(null);
+		
+		for (int i = 0; i < 10; i += 1)
+			jour[i] = "0" + Integer.toString(i);
+		for (int i = 10; i < 32; i += 1)
+			jour[i] = Integer.toString(i);
+		for (int i = 0; i < 10; i += 1)
+			mois[i] = "0" + Integer.toString(i);
+		for (int i = 10; i < 13; i += 1)
+			mois[i] = Integer.toString(i);
+		for (int i = 0; i < 10; i += 1)
+			annee[i] = "0" + Integer.toString(i);
+		for (int i = 10; i < 2031; i += 1)
+			annee[i] = Integer.toString(i);
+				
+		comboJourDebut = new JComboBox(jour);
+		comboJourFin = new JComboBox(jour);
+		comboMoisDebut = new JComboBox(mois);
+		comboMoisFin = new JComboBox(mois);
+		comboAnneeDebut = new JComboBox(annee);
+		comboAnneeFin = new JComboBox(annee);
+		
+		//Mnémonique
+		//Mnémonique
+		
+		//Esthétique
+		btnFra.setFont(new Font("Courier New", Font.BOLD, 11));
+		btnEng.setFont(new Font("Courier New", Font.BOLD, 11));
+		
+		chLblMsgBienvenue.setFont(new Font("Courier New", Font.BOLD, 20));
+		btnCreation.setFont(new Font("Courier New", Font.BOLD, 15));
+		btnAffichage.setFont(new Font("Courier New", Font.BOLD, 15));
+		
+		chLblMsgCreation.setFont(new Font("Courier New", Font.BOLD, 20));
+		btnNouveau.setFont(new Font("Courier New", Font.BOLD, 15));
+		btnModifier.setFont(new Font("Courier New", Font.BOLD, 15));
+		
+		chLblMsgAffichage.setFont(new Font("Courier New", Font.BOLD, 20));
+		chLblFic.setFont(new Font("Courier New", Font.BOLD, 15));
+		comboFichier.setFont(new Font("Courier New", Font.BOLD, 15));
+		
+		btnOpen.setFont(new Font("Courier New", Font.BOLD, 15));
+		btnBack.setFont(new Font("Courier New", Font.BOLD, 15));
+		chLblCredit.setFont(new Font("Courier New", Font.BOLD, 11));
+		
+		chLblMsgNew.setFont(new Font("Courier New", Font.BOLD, 15));
+		chLblNewTitre.setFont(new Font("Courier New", Font.BOLD, 15));
+		chLblNewDebut.setFont(new Font("Courier New", Font.BOLD, 15));
+		chLblNewFin.setFont(new Font("Courier New", Font.BOLD, 15));
+		
+		chLabelFieldErr.setFont(new Font("Courier New", Font.BOLD, 15));
+		chLabelFieldErr.setForeground(new Color(255,0,0));
+		chLabelExiErr.setFont(new Font("Courier New", Font.BOLD, 15));
+		chLabelExiErr.setForeground(new Color(255,0,0));
+		
+		btnFra.setIcon(new ImageIcon(new ImageIcon("images/drapeau_francais.jpg").getImage().getScaledInstance(30, 18, 50)));
+		//btnFra.setPreferredSize(new Dimension(40,30));
+		btnEng.setIcon(new ImageIcon(new ImageIcon("images/drapeau_anglais.gif").getImage().getScaledInstance(30, 18, 50)));
+		//btnEng.setPreferredSize(new Dimension(40,30));
+		
+		btnCreation.setBackground(Data.CouleurBoutons);
+		btnAffichage.setBackground(Data.CouleurBoutons);
+		btnNouveau.setBackground(Data.CouleurBoutons);
+		btnModifier.setBackground(Data.CouleurBoutons);
+		btnOpen.setBackground(Data.CouleurBoutons);
+		btnBack.setBackground(Data.CouleurBoutons);
+		btnCreate.setBackground(Data.CouleurBoutons);
+		comboFichier.setBackground(Data.CouleurBoutons);
+		comboJourDebut.setBackground(Data.CouleurBoutons);
+		comboJourFin.setBackground(Data.CouleurBoutons);
+		comboMoisDebut.setBackground(Data.CouleurBoutons);
+		comboMoisFin.setBackground(Data.CouleurBoutons);
+		comboAnneeDebut.setBackground(Data.CouleurBoutons);
+		comboAnneeFin.setBackground(Data.CouleurBoutons);
+		//Esthétique
+		
+		//add
+		chMenuGeneral.add(btnFra);
+		chMenuGeneral.add(btnEng);
+		
+		chMenuGeneral.add(chLblMsgBienvenue);
+		chMenuGeneral.add(btnCreation);
+		chMenuGeneral.add(btnAffichage);
+		
+		chMenuGeneral.add(chLblMsgCreation);
+		chMenuGeneral.add(btnNouveau);
+		chMenuGeneral.add(btnModifier);
+		
+		chMenuGeneral.add(chLblMsgAffichage);
+		chMenuGeneral.add(chLblFic);
+		chMenuGeneral.add(comboFichier);
+		
+		chMenuGeneral.add(btnOpen);
+		chMenuGeneral.add(btnBack);
+		chMenuGeneral.add(chLblCredit);
+		
+		chMenuGeneral.add(chLblMsgNew);
+		chMenuGeneral.add(chLblNewTitre);
+		chMenuGeneral.add(chNewTitreField);
+		chMenuGeneral.add(chLblNewDebut);
+		chMenuGeneral.add(comboJourDebut);
+		chMenuGeneral.add(comboMoisDebut);
+		chMenuGeneral.add(comboAnneeDebut);
+		chMenuGeneral.add(chLblNewFin);
+		chMenuGeneral.add(comboJourFin);
+		chMenuGeneral.add(comboMoisFin);
+		chMenuGeneral.add(comboAnneeFin);
+		chMenuGeneral.add(btnCreate);
+		
+		chMenuGeneral.add(chLabelVide);
+		chMenuGeneral.add(chLblChoix);
+		chMenuGeneral.add(chLabelFieldErr);
+		chMenuGeneral.add(chLabelExiErr);
+		//add
+		
+		//setBounds
+		btnFra.setBounds(5,5,30,20);
+		btnEng.setBounds(45,5,30,20);
+		
+		chLblMsgBienvenue.setBounds(120,40,250,30);
+		btnCreation.setBounds(165,100,140,30);
+		btnAffichage.setBounds(165,150,140,30);
+		
+		chLblMsgCreation.setBounds(35,40,450,30);
+		btnNouveau.setBounds(165,100,140,30);
+		btnModifier.setBounds(165,150,140,30);
+		
+		chLblMsgAffichage.setBounds(35,40,450,30);
+		chLblFic.setBounds(140,100,200,30);
+		comboFichier.setBounds(165,150,140,30);
+		
+		btnOpen.setBounds(100,200,140,30);
+		btnBack.setBounds(250,200,140,30);
+		chLblCredit.setBounds(175,190,150,15);
+		
+		chLblMsgNew.setBounds(15,50,500,30);
+		chLblNewTitre.setBounds(70,100,200,30);
+		chNewTitreField.setBounds(240,100,140,30);
+		
+		chLblNewDebut.setBounds(70,150,140,30);
+		comboJourDebut.setBounds(240,150,40,30);
+		comboMoisDebut.setBounds(285,150,40,30);
+		comboAnneeDebut.setBounds(330,150,50,30);
+		
+		chLblNewFin.setBounds(70,200,140,30);
+		comboJourFin.setBounds(240,200,40,30);
+		comboMoisFin.setBounds(285,200,40,30);
+		comboAnneeFin.setBounds(330,200,50,30);
+	
+		chLabelFieldErr.setBounds(80,250,500,30);
+		chLabelExiErr.setBounds(30,250,500,30);
+		chLblChoix.setBounds(30,250,500,30);
+		btnCreate.setBounds(165,300,140,30);
+		chLabelVide.setBounds(165,300,140,30);
+		//setBounds
+		
+		//setVisible
+		btnFra.setVisible(true);
+		btnEng.setVisible(true);
+			//setVisible MenuGeneral
+			chLblMsgBienvenue.setVisible(true);
+			btnCreation.setVisible(true);
+			btnAffichage.setVisible(true);
+			chLblCredit.setVisible(true);
+			//setVisible MenuGeneral
+			
+			//setVisible Creation
+			chLblMsgCreation.setVisible(false);
+			btnNouveau.setVisible(false);
+			btnModifier.setVisible(false);
+			//setVisible Creation
+			
+			//setVisible Affichage
+			chLblMsgAffichage.setVisible(false);
+			chLblFic.setVisible(false);
+			comboFichier.setVisible(false);
+			btnOpen.setVisible(false);
+			btnBack.setVisible(false);
+			//setVisible Affichage
+			
+			//setVisible Nouveau
+			chLblMsgNew.setVisible(false);
+			chLblNewTitre.setVisible(false);
+			chNewTitreField.setVisible(false);
+			
+			chLblNewDebut.setVisible(false);
+			comboJourDebut.setVisible(false);
+			comboMoisDebut.setVisible(false);
+			comboAnneeDebut.setVisible(false);
+			
+			chLblNewFin.setVisible(false);
+			comboJourFin.setVisible(false);
+			comboMoisFin.setVisible(false);
+			comboAnneeFin.setVisible(false);
+			
+			btnCreate.setVisible(false);
+			chLabelFieldErr.setVisible(false);
+			chLabelExiErr.setVisible(false);
+			chLblChoix.setVisible(false);
+			chLabelVide.setVisible(false);
+
+			//setVisible Nouveau
+		//setVisible
+		
+		//ActionListener
+		btnFra.addActionListener(this);
+		btnEng.addActionListener(this);
+		btnCreation.addActionListener(this);
+		btnAffichage.addActionListener(this);
+		btnOpen.addActionListener(this);
+		btnBack.addActionListener(this);
+		btnNouveau.addActionListener(this);
+		btnModifier.addActionListener(this);
+		btnCreate.addActionListener(this);
+		//ActionListener
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnFra) {
+			/*chLblMsgBienvenue = new JLabel("Bienvenue sur Frise");
+			chLblCredit = new JLabel("Copyright © 2020");
+			chLblMsgCreation = new JLabel("Bienvenue sur le menu de création :");
+			chLblMsgAffichage = new JLabel("Bienvenue sur le menu d'affichage :");
+			chLblFic = new JLabel("Choisissez une frise :");
+			
+			btnCreation = new JButton ("Création");
+			btnAffichage = new JButton ("Affichage");
+			btnNouveau = new JButton ("Nouveau");
+			btnModifier = new JButton ("Modifier");
+			btnNext = new JButton ("Suivant");
+			btnBack = new JButton ("Retour");*/
+			System.out.println("Français");
+		}
+		if (e.getSource() == btnEng) {
+			/*chLblMsgBienvenue = new JLabel("Welcome on Frise");
+			chLblCredit = new JLabel("Copyright © 2020");
+			chLblMsgCreation = new JLabel("Welcome on creation menu :");
+			chLblMsgAffichage = new JLabel("Welcome on display menu :");
+			chLblFic = new JLabel("Choose a frise :");
+			
+			btnCreation = new JButton ("Creation");
+			btnAffichage = new JButton ("Display");
+			btnNouveau = new JButton ("New");
+			btnModifier = new JButton ("Modify");
+			btnNext = new JButton ("Next");
+			btnBack = new JButton ("Back");*/
+			System.out.println("English");
+		}
+		if (e.getSource() == btnCreation) {
+			System.out.println("Creation");
+			chLblCredit.setBounds(175,240,150,15);
+			btnBack.setBounds(165,200,140,30);
+
+			
+			//setVisible
+				//setVisible MenuGeneral
+				chLblMsgBienvenue.setVisible(false);
+				btnCreation.setVisible(false);
+				btnAffichage.setVisible(false);
+				//setVisible MenuGeneral
+				
+				//setVisible Creation
+				chLblMsgCreation.setVisible(true);
+				btnNouveau.setVisible(true);
+				btnModifier.setVisible(true);
+				btnBack.setVisible(true);
+				//setVisible Creation
+				
+				//setVisible Nouveau
+				chLblMsgNew.setVisible(false);
+				chLblNewTitre.setVisible(false);
+				chNewTitreField.setVisible(false);
+				
+				chLblNewDebut.setVisible(false);
+				comboJourDebut.setVisible(false);
+				comboMoisDebut.setVisible(false);
+				comboAnneeDebut.setVisible(false);
+				
+				chLblNewFin.setVisible(false);
+				comboJourFin.setVisible(false);
+				comboMoisFin.setVisible(false);
+				comboAnneeFin.setVisible(false);
+				
+				btnCreate.setVisible(false);
+				chLabelFieldErr.setVisible(false);
+				chLabelExiErr.setVisible(false);
+				//setVisible Nouveau
+			//setVisible
+		}
+		if (e.getSource() == btnNouveau) {
+
+
+			System.out.println("Nouvau");
+			chLblCredit.setBounds(175,340,150,15);
+			
+			//setVisible			
+				//setVisible Creation
+				chLblMsgCreation.setVisible(false);
+				btnNouveau.setVisible(false);
+				btnModifier.setVisible(false);
+				btnBack.setVisible(false);
+				//setVisible Creation
+				
+				//setVisible Nouveau
+				chLblMsgNew.setVisible(true);
+				chLblNewTitre.setVisible(true);
+				chNewTitreField.setVisible(true);
+				
+				chLblNewDebut.setVisible(true);
+				comboJourDebut.setVisible(true);
+				comboMoisDebut.setVisible(true);
+				comboAnneeDebut.setVisible(true);
+				
+				chLblNewFin.setVisible(true);
+				comboJourFin.setVisible(true);
+				comboMoisFin.setVisible(true);
+				comboAnneeFin.setVisible(true);
+				
+				btnCreate.setVisible(true);
+				//setVisible Nouveau
+			//setVisible
+		}
+		if (e.getSource() == btnCreate) {
+
+			FileReader reader = null;
+			String TitreProjet = chNewTitreField.getText().trim();
+			String JourDebutStr = comboJourDebut.getSelectedItem().toString();
+			int JourDebut = Integer.parseInt(JourDebutStr);
+			String MoisDebutStr = comboMoisDebut.getSelectedItem().toString();
+			int MoisDebut = Integer.parseInt(MoisDebutStr);
+			String AnneeDebutStr = comboAnneeDebut.getSelectedItem().toString();
+			int AnneeDebut = Integer.parseInt(AnneeDebutStr);
+			String JourFinStr = comboJourFin.getSelectedItem().toString();
+			int JourFin = Integer.parseInt(JourFinStr);
+			String MoisFinStr = comboJourDebut.getSelectedItem().toString();
+			int MoisFin = Integer.parseInt(MoisFinStr);
+			String AnneeFinStr = comboAnneeFin.getSelectedItem().toString();
+			int AnneeFin = Integer.parseInt(AnneeFinStr);
+			try {
+
+				if ("".equals(String.valueOf(TitreProjet).trim()) || "".equals(String.valueOf(JourDebutStr).trim()) || "".equals(String.valueOf(MoisDebutStr).trim())  || "".equals(String.valueOf(AnneeDebutStr).trim()) || "".equals(String.valueOf(JourFinStr).trim())   || "".equals(String.valueOf(MoisFinStr).trim()) || "".equals(String.valueOf(AnneeFinStr).trim())   ) {
+					chLabelExiErr.setVisible(false);
+					chLabelFieldErr.setVisible(false);
+					chLabelFieldErr.setVisible(true);
+					return;
+				}
+				
+				reader = new FileReader("fich.Titres" + File.separator + "Titres.txt");
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			BufferedReader bufferedReader = new BufferedReader(reader);
+
+			String line;
+			String Titres = "";
+
+			try {
+				while ((line = bufferedReader.readLine()) != null) {
+					
+					Titres += line + "\r\n";
+
+					if(TitreProjet.equals(line))
+					{
+						chLabelFieldErr.setVisible(false);
+						chLabelExiErr.setVisible(false);
+						chLabelExiErr.setVisible(true);
+						return;
+					}
+				}
+				Titres += TitreProjet;
+				//new File(TitreProjet).mkdir();
+		        /*File file = new File(TitreProjet);
+		        if (!file.exists()) {
+		            if (file.mkdir()) {
+		                System.out.println("Directory is created!");
+		            } else {
+		                System.out.println("Failed to create directory!");
+		            }
+		        }*/
+			     File files = new File(TitreProjet+"\\ images"+TitreProjet);
+			        if (!files.exists()) {
+			            if (files.mkdirs()) {
+			                System.out.println("Multiple directories are created!");
+			            } else {
+			                System.out.println("Failed to create multiple directories!");
+			            }
+			        }
+				FileWriter writer = new FileWriter("fich.Titres" + File.separator + "Titres.txt");
+				fichTes = new File(TitreProjet + File.separator + TitreProjet+ ".ser");
+				writer.write(Titres);
+				writer.close();
+				reader.close();
+
+				setBounds(100, 100, 500, 400);
+				
+
+				chLabelFieldErr.setVisible(false);
+				chLabelExiErr.setVisible(false);
+				  fenetreFrise = new FenetreFrise("Frise - Nouvelle Frise");
+				  fenetreFrise.setVisible(true);
+				  menu.dispose();
+
+			} catch (IOException ex) {
+
+				ex.printStackTrace();
+			}
+		}
+		if (e.getSource() == btnModifier) {
+
+			System.out.println("Modifier");
+		    chLblCredit.setBounds(175,240,150,15);
+		    btnOpen.setBounds(165,200,140,30);
+		        
+		    //setVisible
+		        //setVisible Creation
+		        chLblMsgCreation.setVisible(false);
+		        btnNouveau.setVisible(false);
+		        btnModifier.setVisible(false);
+		        btnBack.setVisible(false);
+		        //setVisible Creation
+		        
+		        //setVisible Affichage
+		        chLblMsgAffichage.setVisible(true);
+		        chLblFic.setVisible(true);
+		        comboFichier.setVisible(true);
+		        btnOpen.setVisible(true);
+		        //setVisible Affichage
+		       //setVisible
+				FileReader reader = null;
+				try {
+					reader = new FileReader("fich.Titres" + File.separator + "Titres.txt");
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				BufferedReader bufferedReader = new BufferedReader(reader);
+
+				String line;
+				String Titres = "";
+
+				try {
+					while ((line = bufferedReader.readLine()) != null) {
+						
+						Titres += line + "\r\n";
+
+						comboFichier.addItem(line);
+					}
+
+				} catch (IOException ex) {
+
+					ex.printStackTrace();
+				}
+		        
+		   
+		}
+		
+		if (e.getSource() == btnAffichage) {
+			System.out.println("Affichage");
+			chLblCredit.setBounds(175,240,150,15);
+			btnBack.setBounds(250,200,140,30);
+
+			
+			//setVisible
+				//setVisible MenuGeneral
+				chLblMsgBienvenue.setVisible(false);
+				btnCreation.setVisible(false);
+				btnAffichage.setVisible(false);
+				//setVisible MenuGeneral
+				
+				//setVisible Affichage
+				chLblMsgAffichage.setVisible(true);
+				chLblFic.setVisible(true);
+				comboFichier.setVisible(true);
+				btnOpen.setVisible(true);
+				btnBack.setVisible(true);
+				//setVisible Affichage
+			//setVisible
+				
+		}
+		 if (e.getSource() == btnOpen) {
+
+				try {
+					boolean flag = true;
+					String TitreProjet = comboFichier.getSelectedItem().toString();
+					if ("".equals(String.valueOf(TitreProjet).trim()) ) {
+						chLblChoix.setVisible(true);
+						return;
+					}
+
+					FileReader reader = new FileReader("fich.Titres" + File.separator + "Titres.txt");
+					BufferedReader bufferedReader = new BufferedReader(reader);
+					String line;
+
+					while ((line = bufferedReader.readLine()) != null) {
+
+						if(line.equals(TitreProjet)) {
+							flag = false;
+							break;
+							
+						}
+					}
+					reader.close();
+					fichTes = new File(comboFichier.getSelectedItem().toString().trim() + File.separator + comboFichier.getSelectedItem().toString().trim()+ ".ser");
+					FenetreFrise a = null;
+
+					if (flag) {
+						chLabelVide.setVisible(true);
+
+						
+					} else {
+				        a = new FenetreFrise("Frise - Modifier Frise");
+				        a.setVisible(true);
+				        menu.dispose();
+
+					}
+				}
+
+				catch (java.lang.Exception ex) {
+					// Si erreur du pgm Java
+					ex.printStackTrace();
+				} // catch Java
+
+		    }
+		
+		if (e.getSource() == btnBack) {
+			System.out.println("Back");
+			chLblCredit.setBounds(175,190,150,15);
+			
+			//setVisible
+				//setVisible MenuGeneral
+				chLblMsgBienvenue.setVisible(true);
+				btnCreation.setVisible(true);
+				btnAffichage.setVisible(true);
+				//setVisible MenuGeneral
+				
+				//setVisible Creation
+				chLblMsgCreation.setVisible(false);
+				btnNouveau.setVisible(false);
+				btnModifier.setVisible(false);
+				btnOpen.setVisible(false);
+				btnBack.setVisible(false);
+				//setVisible Creation
+				
+				//setVisible Affichage
+				chLblMsgAffichage.setVisible(false);
+				chLblFic.setVisible(false);
+				comboFichier.setVisible(false);
+				//setVisible Affichage
+				
+				//setVisible Nouveau
+				chLblMsgNew.setVisible(false);
+				chLblNewTitre.setVisible(false);
+				chNewTitreField.setVisible(false);
+				
+				chLblNewDebut.setVisible(false);
+				comboJourDebut.setVisible(false);
+				comboMoisDebut.setVisible(false);
+				comboAnneeDebut.setVisible(false);
+				
+				chLblNewFin.setVisible(false);
+				comboJourFin.setVisible(false);
+				comboMoisFin.setVisible(false);
+				comboAnneeFin.setVisible(false);
+				//setVisible Nouveau
+			//setVisible
+		}
+	}
+	
+/*	public void setStatut(int parint) {
+		statut = parint;
+	}*/
+	
+	public String getTitreProjet() {
+      if(comboFichier.getSelectedItem().toString().equals("") ) {
+    	  System.out.println("frst");
+			return chNewTitreField.getText().trim();
+      }
+      else  {
+    	  System.out.println("scnd");
+    	  return comboFichier.getSelectedItem().toString();
+		}
+    }
+	
+
+	/**
+     * Surcharge de paintComponent pour insérer l'image
+     */
+   public void paintComponent(Graphics g) {
+      try {
+         BufferedImage image = ImageIO.read(new File("image"));
+         g.drawImage(image, 0, 0, null);
+      }
+      catch (IOException e) {
+         e.printStackTrace();
+      }
+   }
+   
+   
+}

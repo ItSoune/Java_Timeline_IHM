@@ -1,0 +1,42 @@
+package vue;
+
+import java.awt.*;
+import javax.swing.*;
+
+import modele.Data;
+import modele.Date;
+import modele.Evt;
+
+/**
+ * La classe FenetreAgenda est notre fenetre mère qui contient le PanelAgendaV2.
+ * 
+ * @author BOUCHDI Yassine
+ *
+ */
+public class FenetreFrise extends JFrame {
+
+	public FenetreFrise(String parTitre) {
+		super(parTitre);
+		PanelEvt chContentPane = new PanelEvt();
+		JMenuBar chMenuBar = new JMenuBar();
+		
+		setContentPane(chContentPane);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setVisible(true);
+		JTextField zoneTitre = new JTextField();
+	
+	
+	}
+
+	/**
+	 * Cette methode permet l'execution du programme
+	 * 
+	 * @param args : Tableau d'argument de la méthode main.
+	 */
+	public static void main(String[] args) {
+		new FenetreFrise("Agenda 2020");
+		
+
+	}
+
+}

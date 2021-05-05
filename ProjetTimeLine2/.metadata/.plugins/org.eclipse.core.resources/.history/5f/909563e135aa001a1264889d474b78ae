@@ -1,0 +1,67 @@
+package vue;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import Controleur.Controleur;
+import modele.*;
+
+public class PanelFrise extends JPanel implements ActionListener {
+	
+			CardLayout chLayout = new CardLayout();
+
+		public PanelFrise() {
+			Frise chFrise = new Frise();
+			Evt e1 = new Evt(new Date(5, 3, 2020), " Capture", "Le 1er décembre 1955, lorsque Rosa Parks, une femme noire, est arrêtée pour avoir violé les lois ségrégationnistes de la ville en refusant de céder sa place à un Blanc, il mène le boycott des",3);
+			Evt e2 = new Evt(new Date(5, 5, 2020), " Projet BD", "Maison",2);
+			Evt e3 = new Evt(new Date(10, 5, 2020), " Projet COO", "BU",0);
+			Evt e4 = new Evt(new Date(4, 5, 2020), " Projet Reseau", "G25",3);
+			Evt e5 = new Evt(new Date(4, 4, 2020), " Projet PPP", "412",3);
+
+			chFrise.ajoutMap(e1);
+			chFrise.ajoutMap(e2);
+			chFrise.ajoutMap(e3);
+			chFrise.ajoutMap(e4);
+			chFrise.ajoutMap(e5);
+
+
+			PanelCreation creation = new PanelCreation();
+			PanelEvt evt = new PanelEvt(chFrise);
+			Controleur contr = new Controleur(chFrise, creation, evt);
+			this.setLayout(chLayout);
+
+			this.add(evt,Data.MENU[1]);
+			this.add(creation,Data.MENU[0]);
+	
+		}
+		public void actionPerformed(ActionEvent e) {
+			String actionCommand = e.getActionCommand();
+			for (int i = 0; i < Data.MENU.length; i++) {
+				if (actionCommand.equals(Data.MENU[i])) {
+					chLayout.show(this, Data.MENU[i]);
+
+				}
+			}
+			if (actionCommand.equals(Data.MENU[3])) {
+				int saisi = JOptionPane.showConfirmDialog(this, "Êtes-vous sûr de vouloir fermer la fenêtre ?",
+						"Dialogue de confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+				switch (saisi) {
+				case JOptionPane.CLOSED_OPTION:
+					break;
+				case JOptionPane.YES_OPTION:
+					System.exit(0);
+					break;
+				case JOptionPane.NO_OPTION:
+					break;
+				}
+			}
+		}
+		
+
+
+
+}

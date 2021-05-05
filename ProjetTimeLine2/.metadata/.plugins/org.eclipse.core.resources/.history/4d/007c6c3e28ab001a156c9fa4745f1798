@@ -1,0 +1,78 @@
+package vue;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.Serializable;
+import java.util.*;
+import javax.swing.*;
+import modele.*;
+import modele.Date;
+
+/**
+ * La classe PanelMois rassemble les BoutonDate d'un certain mois.
+ * 
+ * @author BOUCHDI Yassine
+ *
+ */
+public class PanelDiaporama extends JPanel  {
+	String titre,Description;
+	Date date;
+	String htmlText;
+	String TitreProjet = new String();
+	CardLayout gestionnaireDeCartes = new CardLayout(5,5);
+	JPanel panelCentre = new JPanel ();
+	JLabel etiquette = new JLabel();
+	String intitule;
+	public PanelDiaporama(Evt parEvt) {
+		FenetreMenu chMenu = new FenetreMenu("Frise - Menu Général" );
+		TitreProjet = chMenu.getTitreProjet();
+	    File repertoire = new File(TitreProjet+ File.separator+ "images_"+TitreProjet);
+		String [ ] intitules_images = repertoire.list() ;
+
+		titre = parEvt.getTitre().trim();
+		date = parEvt.getDate();
+		Description = getTokens(parEvt.getDescription());
+		htmlText = new String("<html>" +"<h4><i>"+ date +"</i></h4>"+"<h3>"+titre+"</h3>"+Description+"</html>");
+		JTextPane jTextPane =new JTextPane ();
+		jTextPane.setContentType("text/html");
+		jTextPane.setText(htmlText);
+		setBackground(new Color(255, 255, 255));
+		
+		
+		
+		//image 
+		
+		panelCentre.setLayout(gestionnaireDeCartes);
+		for (int j=0; j<intitules_images.length;j++) {
+			if(intitules_images[j].equals(titre+".PNG") || intitules_images[j].equals(titre+".png") ) {
+				intitule = intitules_images[j];
+				etiquette = new JLabel (new ImageIcon("images"+ File.separator+intitule)) ;
+				panelCentre.add(etiquette,intitule);	
+			}
+
+		}
+		gestionnaireDeCartes.show(panelCentre, intitule);
+
+
+		add(panelCentre, BorderLayout.CENTER);
+		add(jTextPane);
+
+	}
+	
+	public String getTokens(String str) {
+	    String Description = new String();
+	    int c = 0;
+	    StringTokenizer tokenizer = new StringTokenizer(str);
+	    while (tokenizer.hasMoreElements()) {
+	    	if (c == 12) {
+	    	Description+= "<br>";
+	    	c= 0;
+	    	}
+	    	Description+= tokenizer.nextToken()+ " ";
+	    	c++;	
+	    }
+	    return Description;
+	}
+}

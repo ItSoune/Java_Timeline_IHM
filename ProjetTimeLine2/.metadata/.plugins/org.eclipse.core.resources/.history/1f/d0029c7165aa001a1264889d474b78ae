@@ -1,0 +1,94 @@
+/**
+ * 
+ */
+package vue;
+
+import java.awt.*;
+import javax.swing.*;
+import modele.*;
+
+/**
+ * Class FenetreAgenda, class mère, permet de lancer le programme.
+ * 
+ * @author Cleret Lilian
+ */
+public class FenetreFrise extends JFrame {
+	JTextField zoneTitre;
+	
+	JMenuBar menuBar = new JMenuBar();
+	JMenu menu;
+	JMenuItem menuItem;
+	
+	/**
+	 * Méthode FenetreAgenda, permet le lancement du programme.
+	 * 
+	 * @param parTitre, donner un titre à la fenêtre
+	 */
+	public FenetreFrise(String parTitre) {
+		super(parTitre); // appel du constructeur de la classe mère JFrame
+		PanelFrise contentPane = new PanelFrise(); // le panneau conteneur
+
+		// La barre de menus
+		
+		for (int i = 0; i < Data.MENU.length; i++) {
+			menu = new JMenu(Data.MENU[i]);
+			//menu.addActionListener(contentPane);
+			//menu.setActionCommand(Data.MENU[i]);
+			menu.setMnemonic(Data.MENU[i].charAt(0));
+			if (i == 0) {
+				for (int j=0; j<Data.MENUCREATION.length; j++) {
+					menuItem = new JMenuItem(Data.MENUCREATION[j]);
+					menuItem.addActionListener(contentPane);
+					menuItem.setMnemonic(Data.MENUCREATION[j].charAt(0));
+					menuItem.setActionCommand(Data.MENUCREATION[j]);
+					menu.add(menuItem);
+				}
+			}
+			else if (i == 1) {
+				for (int k=0; k<Data.MENUAFFICHAGE.length; k++) {
+					menuItem = new JMenuItem(Data.MENUAFFICHAGE[k]);
+					menuItem.addActionListener(contentPane);
+					menuItem.setMnemonic(Data.MENUAFFICHAGE[k].charAt(0));
+					menuItem.setActionCommand(Data.MENUAFFICHAGE[k]);
+					menu.add(menuItem);
+				}	
+			}
+			else if (i == 2) {
+				for (int l=0; l<Data.MENUQUITTER.length; l++) {
+					menuItem = new JMenuItem(Data.MENUQUITTER[l]);
+					menuItem.addActionListener(contentPane);
+					menuItem.setMnemonic(Data.MENUQUITTER[l].charAt(0));
+					menuItem.setActionCommand(Data.MENUQUITTER[l]);
+					menu.add(menuItem);
+				}
+			}
+			menuBar.add(menu);
+		}
+		
+		this.setJMenuBar(menuBar);
+		
+		setContentPane(contentPane);
+		// contentPane.setBackground(new Color (30,255,30));
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		// setSize(900,650);
+		// pack();
+		setVisible(true);
+		/*zoneTitre = PanelFormulaire.getZoneTitre();
+		zoneTitre.requestFocus();
+		// setLocation(445,0);*/
+	} // FentreMere
+
+	/*
+	 * public Insets getInsets () { return new Insets(40,15,15,15); } // getInsets
+	 */
+
+	/**
+	 * Méthode main, donne l'argument en tant que nom de fenêtre.
+	 * 
+	 * @param args, tableau d'argument
+	 */
+	public static void main(String[] args) {
+		new FenetreFrise(args[0]); // titre de la fenetre
+	} // main
+}

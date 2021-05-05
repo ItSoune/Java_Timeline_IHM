@@ -1,0 +1,24 @@
+package Client;
+
+import modele.*;
+
+public class Client {
+
+	public static void main(String[] args) {
+		Frise a1 = new Frise();
+		Date date = new Date(8,3,2011);
+		Evt e1 = new Evt(date,"Titre1","Description1");
+		Evt e5 = new Evt(date,"Titre2","Description2");
+		Evt e3 = new Evt(new Date(10,6,2001),"Titre3","Description3");
+		Evt e4 = new Evt(new Date(1,1,2001),"Titre4","Description4");
+		Evt e2 = new Evt(date,"Titre5","Description5");
+		a1.ajoutMap(e1);
+		a1.ajoutMap(e2);
+		a1.ajoutMap(e3);
+		a1.ajoutMap(e4);
+		a1.ajoutMap(e5);
+		System.out.println(a1.toString());
+
+	}
+
+}

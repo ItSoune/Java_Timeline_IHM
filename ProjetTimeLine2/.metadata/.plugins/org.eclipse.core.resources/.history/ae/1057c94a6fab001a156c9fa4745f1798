@@ -1,0 +1,254 @@
+package vue;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import javax.swing.*;
+
+import Controleur.Controleur;
+import modele.*;
+
+/**
+ * La classe PanelFormulaire sert à ajouter des événements depuis l'interface.
+ * 
+ * @author BOUCHDI Yassine
+ *
+ */
+public class PanelCreation extends JPanel {
+	Evt chEvtSaisi;
+	JButton chBouton = new JButton("+");
+
+	Date chDate = new Date();
+	static JTextField chZoneTitre = new JTextField();
+	JTextArea chZoneDesc = new JTextArea(8, 8);
+	JTextField chZoneDateDeb = new JTextField();
+	JTextField chZoneDateFin = new JTextField();
+	JTextField chZoneJour = new JTextField();
+	JTextField chZoneMois = new JTextField();
+	JTextField chZoneAnnee = new JTextField();
+	JLabel lblimage = new JLabel();
+	JButton imageChoose = new JButton("Charger une image");
+	GregorianCalendar chAujourdhui = new GregorianCalendar();
+	String chMaintH = Integer.toString(chAujourdhui.get(Calendar.HOUR_OF_DAY));
+	String chMaintM = Integer.toString(chAujourdhui.get(Calendar.MINUTE));
+	
+    JComboBox chComboNiveau = new JComboBox();
+
+
+	public PanelCreation() {
+
+		GridBagConstraints contrainte = new GridBagConstraints();
+		setLayout(new GridBagLayout());
+		
+		// image
+		contrainte.gridx = 4;
+		contrainte.gridy = 0;
+		contrainte.gridheight = 1;
+		contrainte.fill = GridBagConstraints.BOTH;
+		contrainte.insets = new Insets(10, 10, 10, 10);
+		this.add(lblimage, contrainte);
+		// imageChoose
+		contrainte.gridx = 10;
+		contrainte.gridy = 6;
+		contrainte.gridheight = 1;
+		contrainte.fill = GridBagConstraints.BOTH;
+		contrainte.insets = new Insets(10, 10, 10, 10);
+		this.add(imageChoose, contrainte);
+		
+		
+		// bouton
+		contrainte.gridx = 4;
+		contrainte.gridy = 0;
+		contrainte.gridheight = 1;
+		contrainte.fill = GridBagConstraints.BOTH;
+		contrainte.insets = new Insets(10, 10, 10, 10);
+		this.add(chBouton, contrainte);
+
+		// titre
+		JLabel titre = new JLabel("Titre", JLabel.LEFT);
+		titre.setDisplayedMnemonic('T');
+		contrainte.gridx = 0;
+		contrainte.gridy = 1;
+		contrainte.gridheight = 1;
+		contrainte.fill = GridBagConstraints.BOTH;
+		contrainte.insets = new Insets(10, 10, 10, 10);
+		this.add(titre, contrainte);
+
+		// zoneTitre
+		contrainte.gridx = 2;
+		contrainte.gridy = 1;
+		contrainte.gridheight = 1;
+		contrainte.gridwidth = 3;
+		contrainte.insets = new Insets(10, 10, 10, 10);
+		this.add(chZoneTitre, contrainte);
+		titre.setLabelFor(chZoneTitre);
+
+
+		// desc
+		JLabel desc = new JLabel("Description", JLabel.LEFT);
+		desc.setDisplayedMnemonic('e');
+		contrainte.gridx = 0;
+		contrainte.gridy = 6;
+		contrainte.gridheight = 1;
+		contrainte.gridwidth = 3;
+		contrainte.fill = GridBagConstraints.BOTH;
+		contrainte.insets = new Insets(10, 10, 10, 10);
+		this.add(desc, contrainte);
+		
+		// zonedesc
+		contrainte.gridx = 2;
+		contrainte.gridy = 6;
+		contrainte.gridheight = 2;
+		contrainte.gridwidth = 3;
+		contrainte.insets = new Insets(10, 10, 10, 10);
+		desc.setLabelFor(chZoneDesc);
+		chZoneDesc.setLineWrap(true);
+		this.add(chZoneDesc, contrainte);
+		
+		// Niveau
+        JLabel chNiv = new JLabel("Niveau d'importance");
+        String niv[] = new String[4];
+        for (int i = 0; i < 4; i += 1)
+            niv[i] = "0" + Integer.toString(i);
+        chComboNiveau = new JComboBox(niv);
+        contrainte.gridx = 0;
+        contrainte.gridy = 2;
+        contrainte.gridwidth = 1;
+        contrainte.gridheight = 1;
+        contrainte.insets = new Insets(10, 10, 10, 10);
+        contrainte.fill = GridBagConstraints.BOTH;
+        this.add(chNiv, contrainte);
+        contrainte.gridx = 4;
+        contrainte.gridy = 2;
+        contrainte.gridwidth = 1;
+        contrainte.gridheight = 1;
+        contrainte.insets = new Insets(15, 15, 15, 15);
+        contrainte.fill = GridBagConstraints.BOTH;
+        chComboNiveau.setSelectedItem(3);
+
+        this.add(chComboNiveau, contrainte);
+        // Niveau
+        
+        //jour 
+		JLabel jour = new JLabel("Jour", JLabel.LEFT);
+		titre.setDisplayedMnemonic('J');
+		contrainte.gridx = 0;
+		contrainte.gridy = 3;
+		contrainte.gridheight = 1;
+		contrainte.fill = GridBagConstraints.BOTH;
+		contrainte.insets = new Insets(10, 10, 10, 10);
+		this.add(jour, contrainte);
+
+		// zoneJour
+		contrainte.gridx = 2;
+		contrainte.gridy = 3;
+		contrainte.gridheight = 1;
+		contrainte.gridwidth = 3;
+		contrainte.insets = new Insets(10, 10, 10, 10);
+		this.add(chZoneJour, contrainte);
+		titre.setLabelFor(chZoneJour);
+
+        //mois 
+		JLabel mois = new JLabel("Mois", JLabel.LEFT);
+		titre.setDisplayedMnemonic('J');
+		contrainte.gridx = 0;
+		contrainte.gridy = 4;
+		contrainte.gridheight = 1;
+		contrainte.fill = GridBagConstraints.BOTH;
+		contrainte.insets = new Insets(10, 10, 10, 10);
+		this.add(mois, contrainte);
+
+		// zoneMois
+		contrainte.gridx = 2;
+		contrainte.gridy = 4;
+		contrainte.gridheight = 1;
+		contrainte.gridwidth = 3;
+		contrainte.insets = new Insets(10, 10, 10, 10);
+		this.add(chZoneMois, contrainte);
+		titre.setLabelFor(chZoneMois);
+		
+        //annee 
+		JLabel annee = new JLabel("Annee", JLabel.LEFT);
+		titre.setDisplayedMnemonic('J');
+		contrainte.gridx = 0;
+		contrainte.gridy = 5;
+		contrainte.gridheight = 1;
+		contrainte.fill = GridBagConstraints.BOTH;
+		contrainte.insets = new Insets(10, 10, 10, 10);
+		this.add(annee, contrainte);
+
+		// zoneAnnee
+		contrainte.gridx = 2;
+		contrainte.gridy = 5;
+		contrainte.gridheight = 1;
+		contrainte.gridwidth = 3;
+		contrainte.insets = new Insets(10, 10, 10, 10);
+		this.add(chZoneAnnee, contrainte);
+		titre.setLabelFor(chZoneAnnee);
+		
+		// Couleurs & Formes
+		titre.setFont(new Font("Times New Roman", Font.BOLD, 15));
+
+		desc.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		chBouton.setBackground(Data.CouleurBoutons);
+
+	}
+
+	/**
+	 * La methode enregistreEcouteur met les boutons de PanelFormulaire en Ecoute
+	 * du controleur.
+	 * 
+	 * @param parControleur : Le controleur qui gère les clics.
+	 */
+	public void enregistreEcouteur(Controleur parControleur) {
+		chBouton.addActionListener(parControleur);
+		chBouton.setActionCommand("+");
+
+	}
+
+	/**
+	 * La méthode getEvenement renvoie l'événement saisi.
+	 * 
+	 * @return Evt : L'événement saisi.
+	 */
+	public Evt getEvenement() {
+		String Titre = chZoneTitre.getText();
+		String Description = chZoneDesc.getText();
+		String NiveauStr = chComboNiveau.getSelectedItem().toString();
+		int Niveau = Integer.parseInt(NiveauStr);
+		String jourStr = chZoneJour.getText();
+		int jour = Integer.parseInt(jourStr);
+		String moisStr = chZoneMois.getText();
+		int mois = Integer.parseInt(moisStr);
+		String anneeStr = chZoneAnnee.getText();
+		int annee = Integer.parseInt(anneeStr);
+		Date date = new Date(jour,mois,annee);
+		chEvtSaisi = new Evt(date,Titre,Description,Niveau);
+
+		return chEvtSaisi;
+	}
+	
+	public void RAZ() {
+		chZoneTitre.setText("");
+		chZoneDesc.setText("");
+		chZoneJour.setText("");
+		chZoneMois.setText("");
+		chZoneAnnee.setText("");
+		chComboNiveau.setSelectedItem(3);
+		chZoneTitre.requestFocus();
+	}
+
+	/**
+	 * La méthode getzoneTitre renvoie le contenu de la zone de titre de
+	 * PanelFormulaire.
+	 * 
+	 * @return JtextField
+	 */
+	public static JTextField getzoneTitre() {
+		return chZoneTitre;
+	}
+}

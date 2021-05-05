@@ -1,0 +1,59 @@
+<!doctype html>
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Rapport Frise</title>
+		<link rel="stylesheet" href="feuillestyle_clmtkd.css" />
+	</head>
+	
+	<body>
+		<div id="global">
+		
+			<div id="entete">
+				<h1><U>Le manuel utilisateur :</U></h1>		
+			</div> <!-- #entete -->
+			
+			<div id="contenu">
+			
+				<section>
+					<h2><U>FenetreMenu :</U></h2>
+					<p>Le logiciel Frise à une utilisation assez intuitive. A l’ouverture nous atterrissons sur un menu qui nous propose deux grosses options (Création et Affichage) sous forme de boutons.
+					Le menu n°1 nous amène sur un second menu qui nous propose cette fois-ci 3 options (Nouveau, Modifier et Retour). Dans l’ordre nous avons donc la possibilité soit de créer une nouvelle frise, soit d’en modifier une ou bien de revenir sur le menu précédent.
+					Si l’utilisateur vient à cliquer sur le bouton Nouveau il va tomber sur un formulaire interactif (des boutons faisant apparaitre des JComboBox pour sélectionner les dates ont été ajouté) de création puis une fois tout les champs rempli,
+					il suffit d’appuyer sur créer pour qu’on dossier comportant le nom du projet est créer ainsi qu’un dossier d’image dans ce même dossier.</p>
+					
+					<p>Si l’on revient au menu précédent nous avons donc la possibilité de modifier une frise, ce menu est le même que le menu d’affichage du premier menu,
+					il comporte une JComboBox et un bouton ouvrir qui permet donc d’ouvrir l’application et d’y rentrer ces dates ou de les voir.</p>
+					
+					<p>Dans tout ce qui a été décrit juste au dessus une option a été rajoutée, c’est la possibilité de changer de langue avec des boutons en haut à gauche avec le drapeau Français et Anglais.</p>
+					
+					<h2><U>FenetreFrise :</U></h2>
+					<p>Une fois le choix fait dans la première page de notre application. La fenêtre se ferme et ouvre le cœur de l’application avec la frise créée ou sélectionnée. Nous avons opté pour un affichage grand écran, pour profiter pleinement de l’application, c’est plus agréable pour les yeux. Et donc deux possibilités d’affichage sont disponibles.</p>
+					
+					<h3><U>Côté Création :</U></h3>
+					<p>La première est celle qui correspond à la partie création. Elle ouvre une fenêtre contenant en de haut un bas en haut de la fenêtre une frise (vierge ou semi remplis, cela dépendra de si l’utilisateur viens de la créer ou veut la modifier). Sur la partie bas de la fenêtre un formulaire interactif avec dans l’ordre de gauche à droite et de haut en bas,
+					le Titre, le niveau d’importance, la date sous forme de calendrier qui s’ouvre en cliquant sur un bouton (l’utilisateur ne peut choisir de date si il vient de créer la frise et si il choisit une date en dehors de sa frise un label d’erreur s’affiche), une zone de description. A gauche en haut un bouton d’envoie qui ne s’active seulement si une photo a été rajouté.
+					La photo elle peut être rajoutée de n’importe où dans le pc, seulement si un titre à été rentré, elle prend le nom de l’évènement et se transforme en png si ce n’est pas le cas, une fois l’image validé on ne peut plus la modifier, il faut le faire manuellement dans le dossier NomDuProjet/image_NomDuProjet. Par ailleurs il est déconseillé de importer une image depuis un dossier ce trouvant dans le projet ProjetTimeLine2.
+					D’où l’interaction de ce formulaire. Une fois le bouton ajouté (ce situant en haut de la zone d’image et au droite du titre) pressé tout se réinitialise à l’aide d’une méthode de remise à zéro (RAZ), et l’image s’affiche dans la frise juste au dessus.
+					Entre ces deux parties ce trouve le nom de la frise en cours d’utilisation, pour que la personne ne doute pas du travail en cours de modification.</p>
+					
+					<h3><U>Côté Affichage :</U></h3>
+					<p>Si la personne à choisit l’affichage sur la premier menu alors elle va tomber sur un affichage différent qui sera constitué d’un panel avec le première évènement. De haut en bas de ce panel se trouve le titre en haut, un bouton de chaque côté permettant de se déplacer sur la frise situé en dessous ainsi que sur le panel pour aller au prochain évènement.
+					Et au milieu de ce panel, de gauche à droite, l’image correspondant à l’évènement le titre, la date et la description de celui-ci. En dessous de ce panel nous retrouver la frise de l’affichage précédent mais cette fois-ci elle est automatisée. Cette fonctionnalité marche aussi bien de droite à gauche que de gauche à droite.
+					Aussi, si l’utilisateur clique sur une cellule qui a un évènement alors celui-ci s’affiche dans le panel du dessus.
+					Tout en haut de cette affichage on retrouve le titre du projet en cours, pour que l’utilisateur puisse se savoir rapidement de quelle frise il s’agit.</p>
+					
+					<h3><U>Côté Menu et Option :</U></h3>
+					<p>De plus une barre de menu qui permet de naviguer à travers les différentes options de l’application est située en haut de l’application. (Création, Affichage, Quitter, A Propos)</p>
+					
+					<p>Chaque menu comporte une option minimum. Dans l’ordre nous avons pour le menu Creation les sous options Nouveau et Modifier. Pour le menu Affichage les sous options charger une frise et charger la dernière frise. Chacun des trois menus renvoie à l’une des Images 1 (menu NC) ou 4 (menu A).
+					/!\ Si vous décidez de faire charger une frise alors que vous étiez sur la partie création, vous ne pourrais plus ajouter d’évènement. Mais possibilité de rouvrir une fenêtre de modification et de rajouter un évènement./!\ 
+					Pour le menu Quitter une seule option est disponible, c’est la fermeture de la fenêtre avec une demande de vérification (JOptionPane). Et pour le « ? » qui correspond à A Propos nous avons 4 sous menus, dont deux sections la première est la documentation et la seconde est une zone comment ça marche qui réfère à une notice.
+					La deuxième section est composée de deux JRadioButtonMenuItem qui permettent la modification du fond en deux couleurs, le blanc avec le mode claire et le noir avec le mode sombre.</p>
+				</section>
+				
+			</div> <!-- #contenu -->
+		</div>
+	</body>
+</html>
